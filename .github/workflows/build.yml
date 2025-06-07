@@ -10,7 +10,13 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            target: linux
+            ext: ''
+          - os: windows-latest
+            target: windows
+            ext: '.exe'
 
     steps:
       - name: Checkout code
@@ -29,11 +35,7 @@ jobs:
       - name: Rename and move binary
         run: |
           mkdir -p dist
-          if [ "${{ runner.os }}" = "Windows" ]; then
-            mv target/release/${{ github.event.repository.name }}.exe dist/${{ github.event.repository.name }}-windows.exe
-          else
-            mv target/release/${{ github.event.repository.name }} dist/${{ github.event.repository.name }}-linux
-          fi
+          cp target/release/${{ github.event.repository.name }}${{ matrix.ext }} dist/${{ github.event.repository.name }}-${{ matrix.target }}${{ matrix.ext }}
         shell: bash
 
       - name: Upload artifact
