@@ -1,0 +1,10 @@
+[package]
+name = "gtop-rs"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+crossterm = "0.29.0"
+nvml-wrapper = "0.11.0"
+sysinfo = "0.35.2"
+textplots = "0.8.7"
